@@ -56,33 +56,32 @@ footer {
 
 /*====================== MODAL CADASTRO ===============*/
 
+#vehicleForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 15px;
+}
+
 input {
-  height: 40px;
-  margin-bottom: 9px;
+  height: 38px !important;
   background-color: rgba(146, 192, 253, 0.493);
   outline: none;
   border: none;
   border-radius: 5px;
-  text-indent: 5px;
+  padding: 0 15px;
   font-size: 16px;
+  width: 250px !important;
 }
 
-#inputPlaca {
-  width: 30%;
-}
-
-#inputChassi {
-  width: 69%;
-}
-
+/* Remove os tamanhos específicos antigos */
+#inputPlaca,
+#inputChassi,
 #inputRenavam,
-#inputMarca {
-  width: 49%;
-}
-
+#inputMarca,
 #inputModelo,
 #inputAno {
-  width: 50%;
+  width: 250px !important;
 }
 
 .buttonExcluir {
@@ -174,4 +173,88 @@ input {
 /* Ajuste para backdrop do modal */
 .modal-backdrop {
   opacity: 0.5;
+}
+
+.btn-group-toggle .btn-outline-light {
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  height: 38px !important;
+  line-height: 26px;
+}
+
+.btn-group-toggle .btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-group-toggle .btn-outline-light.active {
+  background-color: #fff;
+  color: #343a40;
+}
+
+.form-inline .btn-group {
+  margin-right: 1rem;
+}
+
+#inputSearch {
+  height: 38px !important;
+  min-width: 250px;
+}
+
+/*====================== TABELAS ======================*/
+.table {
+  margin-bottom: 2rem;
+}
+
+.table th,
+.table td {
+  vertical-align: middle !important;
+  text-align: center !important;
+  padding: 0.75rem !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table th {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #343a40;
+  color: white;
+}
+
+.table td {
+  font-size: 14px;
+}
+
+.table .btn {
+  white-space: nowrap;
+  margin: 0 2px;
+}
+
+.thead-dark th {
+  padding: 1rem 0.75rem !important;
+}
+
+/*====================== BOTÕES ======================*/
+.btn {
+  font-weight: 500;
+  text-transform: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-primary {
+  padding: 0.375rem 1rem;
+}
+
+.table th button.btn {
+  margin: 0;
+  display: inline-block;
+}
+
+.table th .d-flex {
+  min-height: 38px;
+  align-items: center;
 }

@@ -10,7 +10,7 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- CSS -->
   <link rel="stylesheet" href="css/styles.css">
-  <title>CRUD Veiculos - INFO SISTEMAS</title>
+  <title>Vehicle Manager</title>
 </head>
 
 <body>
@@ -20,6 +20,26 @@
       <a class="navbar-brand logo ml-5"><img src="assets/images/logo.png"
           alt="Logo redondo com duas camadas de cores"></a>
       <form class="form-inline">
+        <div class="btn-group btn-group-toggle mr-2" data-toggle="buttons">
+          <label class="btn btn-outline-light">
+            <input type="radio" name="filterType" value="placa"> Placa
+          </label>
+          <label class="btn btn-outline-light">
+            <input type="radio" name="filterType" value="chassi"> Chassi
+          </label>
+          <label class="btn btn-outline-light">
+            <input type="radio" name="filterType" value="renavam"> Renavam
+          </label>
+          <label class="btn btn-outline-light">
+            <input type="radio" name="filterType" value="modelo"> Modelo
+          </label>
+          <label class="btn btn-outline-light">
+            <input type="radio" name="filterType" value="marca"> Marca
+          </label>
+          <label class="btn btn-outline-light">
+            <input type="radio" name="filterType" value="ano"> Ano
+          </label>
+        </div>
         <input id="inputSearch" class="form-control mr-sm-2" type="search" placeholder="Filtrar veículos..."
           aria-label="Filtrar">
       </form>
@@ -50,19 +70,20 @@
           <table class="table table-light">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">PLACA</th>
-                <th scope="col">CHASSI</th>
-                <th scope="col">RENAVAM</th>
-                <th scope="col">MODELO</th>
-                <th scope="col">MARCA</th>
-                <th scope="col">ANO</th>
-                <th scope="col">ENTRADA</th>
-                <!-- Botão para acionar modal -->
-                <th style="width: 20%;"><button type="button" class="btn btn-primary pr-4 pl-4" data-toggle="modal"
-                    data-target="#ExemploModalCentralizado">
-                    Novo Cadastro
-                  </button></th>
+                <th scope="col" class="text-center" style="width: 10%">PLACA</th>
+                <th scope="col" class="text-center" style="width: 15%">CHASSI</th>
+                <th scope="col" class="text-center" style="width: 12%">RENAVAM</th>
+                <th scope="col" class="text-center" style="width: 15%">MODELO</th>
+                <th scope="col" class="text-center" style="width: 13%">MARCA</th>
+                <th scope="col" class="text-center" style="width: 5%">ANO</th>
+                <th scope="col" class="text-center" style="width: 15%">ENTRADA</th>
+                <th scope="col" class="text-center" style="width: 15%">
+                  <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" style="min-width: 140px; margin-left: 36%;" data-toggle="modal" data-target="#ExemploModalCentralizado">
+                      Novo Cadastro
+                    </button>
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody id="tbodyActive">
@@ -75,16 +96,15 @@
           <table class="table table-light">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">PLACA</th>
-                <th scope="col">CHASSI</th>
-                <th scope="col">RENAVAM</th>
-                <th scope="col">MODELO</th>
-                <th scope="col">MARCA</th>
-                <th scope="col">ANO</th>
-                <th scope="col">ENTRADA</th>
-                <th scope="col">SAÍDA</th>
-                <th scope="col">AÇÕES</th>
+                <th scope="col" style="width: 10%">PLACA</th>
+                <th scope="col" style="width: 15%">CHASSI</th>
+                <th scope="col" style="width: 12%">RENAVAM</th>
+                <th scope="col" style="width: 15%">MODELO</th>
+                <th scope="col" style="width: 13%">MARCA</th>
+                <th scope="col" style="width: 5%">ANO</th>
+                <th scope="col" style="width: 10%">ENTRADA</th>
+                <th scope="col" style="width: 10%">SAÍDA</th>
+                <th scope="col" style="width: 10%">AÇÕES</th>
               </tr>
             </thead>
             <tbody id="tbodyHistory">
@@ -143,7 +163,7 @@
         </div>
 
         <div class="modal-body">
-          <form id="vehicleForm">
+          <form id="vehicleForm" class="d-flex flex-column align-items-center">
             <input type="text" 
                    id="inputPlaca" 
                    placeholder="Placa" 
@@ -192,7 +212,7 @@
                    pattern="[0-9]{4}"
                    title="Digite o ano do veículo (4 dígitos)">
 
-            <div class="modal-footer">
+            <div class="modal-footer w-100">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" data-action="close">Fechar</button>
               <button type="submit" class="btn btn-primary" id="btn-primary">Cadastrar</button>
             </div>

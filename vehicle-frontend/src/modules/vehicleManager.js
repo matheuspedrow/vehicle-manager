@@ -23,6 +23,21 @@ class VehicleManager {
       searchInput.addEventListener('input', (e) => this.listVehicles(e.target.value));
     }
 
+    // Listener for filter type change
+    const filterTypeInputs = document.querySelectorAll('input[name="filterType"]');
+    filterTypeInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        const searchInput = document.getElementById('inputSearch');
+        if (searchInput) {
+          // Atualizar placeholder baseado no tipo de filtro
+          const filterType = document.querySelector('input[name="filterType"]:checked').value;
+          searchInput.placeholder = this.getPlaceholderForFilterType(filterType);
+          // Reexecutar a busca com o novo tipo de filtro
+          this.listVehicles(searchInput.value);
+        }
+      });
+    });
+
     // Initialize form listeners
     this.initializeFormListeners();
 
@@ -37,6 +52,20 @@ class VehicleManager {
 
     // Carregar lista inicial
     this.listVehicles();
+  }
+
+  // Get placeholder text based on filter type
+  getPlaceholderForFilterType(filterType) {
+    const placeholders = {
+      todos: "Filtrar veículos...",
+      placa: "Digite a placa (ABC1234)...",
+      chassi: "Digite o chassi...",
+      renavam: "Digite o renavam...",
+      modelo: "Digite o modelo...",
+      marca: "Digite a marca...",
+      ano: "Digite o ano..."
+    };
+    return placeholders[filterType] || placeholders.todos;
   }
 
   // Initialize form listeners
@@ -164,7 +193,6 @@ class VehicleManager {
 
       // Criar células
       const cells = {
-        id: row.insertCell(),
         placa: row.insertCell(),
         chassi: row.insertCell(),
         renavam: row.insertCell(),
@@ -176,7 +204,6 @@ class VehicleManager {
       };
 
       // Preencher dados
-      cells.id.textContent = vehicle.id;
       cells.placa.textContent = vehicle.placa;
       cells.chassi.textContent = vehicle.chassi;
       cells.renavam.textContent = vehicle.renavam;
@@ -222,7 +249,6 @@ class VehicleManager {
 
       // Criar células
       const cells = {
-        id: row.insertCell(),
         placa: row.insertCell(),
         chassi: row.insertCell(),
         renavam: row.insertCell(),
@@ -235,7 +261,6 @@ class VehicleManager {
       };
 
       // Preencher dados
-      cells.id.textContent = vehicle.id;
       cells.placa.textContent = vehicle.placa;
       cells.chassi.textContent = vehicle.chassi;
       cells.renavam.textContent = vehicle.renavam;
@@ -284,11 +309,49 @@ class VehicleManager {
 
   // List vehicles (override)
   async listVehicles(searchTerm = '') {
-    const activeTab = document.querySelector('#active-tab.active');
-    if (activeTab) {
-      await this.listActiveVehicles();
-    } else {
-      await this.listVehiclesHistory();
+    try {
+      let vehicles;
+      const activeTab = document.querySelector('#active-tab.active');
+      
+      // Buscar veículos baseado na aba ativa
+      if (activeTab) {
+        vehicles = await VehicleService.getActiveVehicles();
+      } else {
+        vehicles = await VehicleService.getVehiclesWithCheckout();
+      }
+
+      // Aplicar filtro se houver termo de busca
+      if (searchTerm) {
+        const searchTermLower = searchTerm.toLowerCase();
+        const filterType = document.querySelector('input[name="filterType"]:checked').value;
+
+        vehicles = vehicles.filter(vehicle => {
+          if (filterType === 'todos') {
+            return (
+              vehicle.placa.toLowerCase().includes(searchTermLower) ||
+              vehicle.chassi.toLowerCase().includes(searchTermLower) ||
+              vehicle.renavam.toLowerCase().includes(searchTermLower) ||
+              vehicle.modelo.toLowerCase().includes(searchTermLower) ||
+              vehicle.marca.toLowerCase().includes(searchTermLower) ||
+              vehicle.ano.toString().includes(searchTermLower)
+            );
+          } else {
+            // Filtrar apenas pelo campo selecionado
+            const value = vehicle[filterType]?.toString().toLowerCase() || '';
+            return value.includes(searchTermLower);
+          }
+        });
+      }
+
+      // Renderizar a tabela apropriada
+      if (activeTab) {
+        this.renderActiveTable(vehicles);
+      } else {
+        this.renderHistoryTable(vehicles);
+      }
+    } catch (error) {
+      console.error('Erro ao listar veículos:', error);
+      showErrorModal('Erro ao carregar a lista de veículos.');
     }
   }
 

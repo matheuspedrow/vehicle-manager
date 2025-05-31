@@ -28,7 +28,7 @@ export const validacoes = {
 
   // Validação de modelo (mínimo 2 caracteres, máximo 50)
   modelo: (value) => {
-    const modeloRegex = /^[A-Za-zÀ-ÿ0-9\s\-.]{2,50}$/;
+    const modeloRegex = /^[A-Za-zÀ-ÿ0-9\s\-\.]{2,50}$/;
     return {
       valido: modeloRegex.test(value),
       mensagem: 'O modelo deve ter entre 2 e 50 caracteres'
@@ -37,7 +37,7 @@ export const validacoes = {
 
   // Validação de marca (mínimo 2 caracteres, máximo 50)
   marca: (value) => {
-    const marcaRegex = /^[A-Za-zÀ-ÿ0-9\s\-.]{2,50}$/;
+    const marcaRegex = /^[A-Za-zÀ-ÿ0-9\s\-\.]{2,50}$/;
     return {
       valido: marcaRegex.test(value),
       mensagem: 'A marca deve ter entre 2 e 50 caracteres'

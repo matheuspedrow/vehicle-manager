@@ -1,22 +1,22 @@
+import axios from 'axios';
+
 const API_URL = 'http://localhost:3000/veiculos';
 
 // Função auxiliar para formatar data
 const formatDateToMySql = (date) => {
-  return date.toISOString();
+  const offset = date.getTimezoneOffset();
+  const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+  return adjustedDate.toISOString().slice(0, 19).replace('T', ' ');
 };
 
-export const VehicleService = {
+const VehicleService = {
   // Buscar todos os veículos
   getAllVehicles: async () => {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error('Erro ao buscar veículos');
-      }
-      const vehicles = await response.json();
-      return vehicles;
+      const response = await axios.get(API_URL);
+      return response.data;
     } catch (error) {
-      console.error('Erro ao carregar veículos:', error);
+      console.error('Erro ao buscar veículos:', error);
       throw error;
     }
   },
@@ -51,21 +51,8 @@ export const VehicleService = {
         checkinDate: formatDateToMySql(new Date()),
         checkoutDate: null
       };
-
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(vehicleWithDates)
-      });
-      
-      if (!response.ok) {
-        throw new Error('Erro ao adicionar veículo');
-      }
-      
-      const newVehicle = await response.json();
-      return newVehicle;
+      const response = await axios.post(API_URL, vehicleWithDates);
+      return response.data;
     } catch (error) {
       console.error('Erro ao adicionar veículo:', error);
       throw error;
@@ -75,20 +62,8 @@ export const VehicleService = {
   // Atualizar um veículo
   updateVehicle: async (id, vehicle) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(vehicle)
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao atualizar veículo');
-      }
-
-      const updatedVehicle = await response.json();
-      return updatedVehicle;
+      const response = await axios.put(`${API_URL}/${id}`, vehicle);
+      return response.data;
     } catch (error) {
       console.error('Erro ao atualizar veículo:', error);
       throw error;
@@ -98,40 +73,22 @@ export const VehicleService = {
   // Realizar checkout do veículo
   checkoutVehicle: async (id) => {
     try {
-      // Primeiro, buscar o veículo atual
-      const response = await fetch(`${API_URL}/${id}`);
-      if (!response.ok) {
-        throw new Error(`Erro ao buscar veículo: ${response.status}`);
-      }
+      const response = await axios.get(`${API_URL}/${id}`);
+      const [vehicle] = response.data;
       
-      const [vehicle] = await response.json();
       if (!vehicle) {
         throw new Error('Veículo não encontrado');
       }
 
-      // Preparar o veículo atualizado mantendo todos os campos existentes
       const updatedVehicle = {
         ...vehicle,
         checkoutDate: formatDateToMySql(new Date())
       };
 
-      // Enviar a atualização
-      const updateResponse = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedVehicle)
-      });
-
-      if (!updateResponse.ok) {
-        const errorText = await updateResponse.text();
-        throw new Error(`Erro ao realizar checkout: ${errorText}`);
-      }
-
-      return await updateResponse.json();
+      const updateResponse = await axios.put(`${API_URL}/${id}`, updatedVehicle);
+      return updateResponse.data;
     } catch (error) {
-      console.error('Erro detalhado ao realizar checkout:', error);
+      console.error('Erro ao fazer checkout:', error);
       throw error;
     }
   },
@@ -139,14 +96,7 @@ export const VehicleService = {
   // Excluir um veículo
   deleteVehicle: async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: 'DELETE'
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao excluir veículo');
-      }
-
+      await axios.delete(`${API_URL}/${id}`);
       return true;
     } catch (error) {
       console.error('Erro ao excluir veículo:', error);
@@ -157,41 +107,25 @@ export const VehicleService = {
   // Retornar veículo para ativos
   returnVehicle: async (id) => {
     try {
-      // Primeiro, buscar o veículo atual
-      const response = await fetch(`${API_URL}/${id}`);
-      if (!response.ok) {
-        throw new Error(`Erro ao buscar veículo: ${response.status}`);
-      }
+      const response = await axios.get(`${API_URL}/${id}`);
+      const [vehicle] = response.data;
       
-      const [vehicle] = await response.json();
       if (!vehicle) {
         throw new Error('Veículo não encontrado');
       }
 
-      // Preparar o veículo atualizado removendo a data de checkout
       const updatedVehicle = {
         ...vehicle,
         checkoutDate: null
       };
 
-      // Enviar a atualização
-      const updateResponse = await fetch(`${API_URL}/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedVehicle)
-      });
-
-      if (!updateResponse.ok) {
-        const errorText = await updateResponse.text();
-        throw new Error(`Erro ao retornar veículo: ${errorText}`);
-      }
-
-      return await updateResponse.json();
+      const updateResponse = await axios.put(`${API_URL}/${id}`, updatedVehicle);
+      return updateResponse.data;
     } catch (error) {
       console.error('Erro ao retornar veículo:', error);
       throw error;
     }
   }
-}; 
+};
+
+export default VehicleService; 

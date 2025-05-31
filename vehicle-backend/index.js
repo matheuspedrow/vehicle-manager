@@ -6,12 +6,17 @@ const { use } = require('express/lib/application');
 const app = express();
 const port = 3000; //porta padrão
 
+// Configurar CORS antes de qualquer rota
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log('Acessou o Middlewere!');
-    res.header("Access-Control-Allow-Origin", "*");
-    app.use(cors());
+    console.log('Acessou o Middleware!');
     next();
 });
 

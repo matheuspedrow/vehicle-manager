@@ -1,0 +1,76 @@
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Ajustes para componentes React Bootstrap */
+.navbar {
+  box-shadow: 0 0 14px 2px rgba(0, 0, 0, 0.823);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.table {
+  box-shadow: 0 2px 4px .25px rgba(0, 0, 0, 0.426);
+  border-radius: 15px;
+}
+
+.btn-sm {
+  font-weight: 500;
+}
+
+/* Footer sempre no final */
+footer {
+  margin-top: auto;
+}
+
+/* Ajustes para os modais */
+.modal-header.bg-primary,
+.modal-header.bg-success,
+.modal-header.bg-warning,
+.modal-header.bg-danger,
+.modal-header.bg-info {
+  border-bottom: none;
+}
+
+/* Animações suaves para modais */
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.modal-content {
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para os botões nos modais */
+.modal-footer .btn {
+  min-width: 100px;
+  font-weight: 500;
+}
+
+/* Estilo para listas nos modais */
+.modal-body ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.modal-body ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-body ul li:last-child {
+  border-bottom: none;
+}
+
+/* Ajustes para o formulário */
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+} 

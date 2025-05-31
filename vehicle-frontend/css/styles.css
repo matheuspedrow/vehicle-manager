@@ -147,6 +147,30 @@ input {
   padding: 1.5rem;
 }
 
+.modal-body input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.modal-body input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Estilo para campos inválidos */
+.modal-body input:invalid {
+  border-color: #dc3545;
+}
+
+/* Estilo para campos válidos */
+.modal-body input:valid {
+  border-color: #28a745;
+}
+
 /* Ajuste para backdrop do modal */
 .modal-backdrop {
   opacity: 0.5;

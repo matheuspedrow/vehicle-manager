@@ -86,9 +86,7 @@ app.post('/veiculos', async function (req, res) {
 
 //PUT atualiza dados do veiculo pegando como parametro o 'id'
 app.put('/veiculos/:id', async function (req, res) {
-    const {
-        id
-    } = req.params;
+    const { id } = req.params;
     const veiculo = await db.selectVehicle(id);
 
     if (!veiculo[0]) return res.status(204).json();
@@ -99,20 +97,23 @@ app.put('/veiculos/:id', async function (req, res) {
         renavam,
         modelo,
         marca,
-        ano
+        ano,
+        checkinDate,
+        checkoutDate
     } = req.body;
 
     await db.updateVehicle(id, {
-        placa: placa,
-        chassi: chassi,
-        renavam: renavam,
-        modelo: modelo,
-        marca: marca,
-        ano: ano
+        placa,
+        chassi,
+        renavam,
+        modelo,
+        marca,
+        ano,
+        checkinDate,
+        checkoutDate
     });
 
     res.json(veiculo);
-
 });
 
 //DELETE apaga os dados do veiculo no DB passando o 'id' como parâmetro

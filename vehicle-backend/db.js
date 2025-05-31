@@ -57,8 +57,28 @@ async function insertVehicle(vehicle) {
 // Atualiza dados de um veiculo no banco de dados
 async function updateVehicle(id, vehicle) {
   const conn = await connect();
-  const sql = 'UPDATE veiculos SET placa=?, chassi=?, renavam=?, modelo=?, marca=?, ano=? WHERE id=?';
-  const values = [vehicle.placa, vehicle.chassi, vehicle.renavam, vehicle.modelo, vehicle.marca, vehicle.ano, id];
+  
+  // Converter as datas para o formato MySQL com timezone do Brasil
+  const formatDate = (dateString) => {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    // Ajusta para o timezone do Brasil (UTC-3)
+    date.setHours(date.getHours() - 3);
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+  };
+
+  const sql = 'UPDATE veiculos SET placa=?, chassi=?, renavam=?, modelo=?, marca=?, ano=?, checkinDate=?, checkoutDate=? WHERE id=?';
+  const values = [
+    vehicle.placa, 
+    vehicle.chassi, 
+    vehicle.renavam, 
+    vehicle.modelo, 
+    vehicle.marca, 
+    vehicle.ano,
+    formatDate(vehicle.checkinDate),
+    formatDate(vehicle.checkoutDate),
+    id
+  ];
 
   return await conn.query(sql, values);
 }

@@ -14,37 +14,14 @@
 </head>
 
 <body>
-  <!-- CABEÇALHO / LOGO / PESQUISA -->
+  <!-- CABEÇALHO / LOGO / FILTRO -->
   <header>
-    <!-- Modal Pesquisa -->
-    <div class="modal fade" id="ModalLongoExemplo" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="TituloModalLongoExemplo">Resultado da pesquisa</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <h6 id="pesquisaId"></h6>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand logo ml-5"><img src="assets/images/logo.png"
           alt="Logo redondo com duas camadas de cores"></a>
       <form class="form-inline">
-        <input id="imputPesquisa" class="form-control mr-sm-2" type="search" placeholder="Digite o ID do Veiculo"
-          aria-label="Pesquisar">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal"
-          data-target="#ModalLongoExemplo" onclick="pesquisar()">Pesquisar</button>
+        <input id="inputSearch" class="form-control mr-sm-2" type="search" placeholder="Filtrar veículos..."
+          aria-label="Filtrar">
       </form>
     </nav>
   </header>
@@ -52,58 +29,94 @@
   <!-- CONTEUDO PRINCIPAL / TABELA  -->
   <main>
     <div class="col-md-10 mr-auto ml-auto mt-5">
-      <table class="table table-light">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">PLACA</th>
-            <th scope="col">CHASSI</th>
-            <th scope="col">RENAVAM</th>
-            <th scope="col">MODELO</th>
-            <th scope="col">MARCA</th>
-            <th scope="col">ANO</th>
-            <!-- Botão para acionar modal -->
-            <th style="width: 20%;"><button type="button" class="btn btn-primary pr-4 pl-4" data-toggle="modal"
-                data-target="#ExemploModalCentralizado">
-                Novo Cadastro
-              </button></th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
+      <!-- Abas -->
+      <ul class="nav nav-tabs mb-3" id="vehicleTabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="active-tab" data-toggle="tab" href="#active" role="tab">
+            Veículos Ativos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab">
+            Histórico de Saídas
+          </a>
+        </li>
+      </ul>
 
-        </tbody>
-      </table>
+      <!-- Conteúdo das Abas -->
+      <div class="tab-content" id="vehicleTabsContent">
+        <!-- Aba de Veículos Ativos -->
+        <div class="tab-pane fade show active" id="active" role="tabpanel">
+          <table class="table table-light">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">PLACA</th>
+                <th scope="col">CHASSI</th>
+                <th scope="col">RENAVAM</th>
+                <th scope="col">MODELO</th>
+                <th scope="col">MARCA</th>
+                <th scope="col">ANO</th>
+                <th scope="col">ENTRADA</th>
+                <!-- Botão para acionar modal -->
+                <th style="width: 20%;"><button type="button" class="btn btn-primary pr-4 pl-4" data-toggle="modal"
+                    data-target="#ExemploModalCentralizado">
+                    Novo Cadastro
+                  </button></th>
+              </tr>
+            </thead>
+            <tbody id="tbodyActive">
+            </tbody>
+          </table>
+        </div>
 
-      <!-- Botão para acionar modal -->
+        <!-- Aba de Histórico -->
+        <div class="tab-pane fade" id="history" role="tabpanel">
+          <table class="table table-light">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">PLACA</th>
+                <th scope="col">CHASSI</th>
+                <th scope="col">RENAVAM</th>
+                <th scope="col">MODELO</th>
+                <th scope="col">MARCA</th>
+                <th scope="col">ANO</th>
+                <th scope="col">ENTRADA</th>
+                <th scope="col">SAÍDA</th>
+                <th scope="col">AÇÕES</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyHistory">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Botão para acionar modal de exportar -->
       <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#Modal-Save">
-        SALVAR
+        EXPORTAR DADOS
       </button>
 
-      <!-- Modal / SALVAR -->
+      <!-- Modal / EXPORTAR -->
       <div class="modal fade" id="Modal-Save" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizadoo"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="TituloModalCentralizadoo">SALVAR LISTA EM ARQUIVO .txt</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="fecharSave()">
+              <h5 class="modal-title" id="TituloModalCentralizadoo">Exportar Lista em PDF</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="modal-body">
-
-              <div>
-                <label for="input-fileName">Nome do Arquivo</label><br />
-                <input style="width: 100%;" type="text" id="titulo" placeholder="Nome do Arquivo">
-              </div>
-
+              <p>Clique em "Exportar" para gerar um relatório em PDF com todos os veículos.</p>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                onclick="fecharSave()">Fechar</button>
-              <button type="button" class="btn btn-primary" onclick="salvar()">Salvar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button type="button" class="btn btn-primary" id="btn-save">Exportar</button>
             </div>
           </div>
         </div>
@@ -124,23 +137,66 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="TituloModalCentralizado">Novo Cadastro</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="fechar()">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar" onclick="vehicleManager.close()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body">
-          <input type="text" id="inputPlaca" placeholder="Placa" maxlength="7" title="Digite a placa do veículo (ex: ABC1234 ou ABC1D23)">
-          <input type="text" id="inputChassi" placeholder="Chassi" maxlength="17" title="Digite o número do chassi (17 caracteres)">
-          <input type="text" id="inputRenavam" placeholder="Renavam" maxlength="11" pattern="[0-9]*" title="Digite o número do Renavam (11 dígitos)">
-          <input type="text" id="inputModelo" placeholder="Modelo" maxlength="50" title="Digite o modelo do veículo">
-          <input type="text" id="inputMarca" placeholder="Marca" maxlength="50" title="Digite a marca do veículo">
-          <input type="text" id="inputAno" placeholder="Ano" maxlength="4" pattern="[0-9]*" title="Digite o ano do veículo (4 dígitos)">
-        </div>
+          <form id="vehicleForm">
+            <input type="text" 
+                   id="inputPlaca" 
+                   placeholder="Placa" 
+                   maxlength="7" 
+                   required
+                   pattern="[A-Z]{3}[0-9][A-Z0-9][0-9]{2}"
+                   title="Digite a placa do veículo (ex: ABC1234 ou ABC1D23)">
+            
+            <input type="text" 
+                   id="inputChassi" 
+                   placeholder="Chassi" 
+                   maxlength="17" 
+                   required
+                   pattern="[A-HJ-NPR-Z0-9]{17}"
+                   title="Digite o número do chassi (17 caracteres)">
+            
+            <input type="text" 
+                   id="inputRenavam" 
+                   placeholder="Renavam" 
+                   maxlength="11" 
+                   required
+                   pattern="[0-9]{11}"
+                   title="Digite o número do Renavam (11 dígitos)">
+            
+            <input type="text" 
+                   id="inputModelo" 
+                   placeholder="Modelo" 
+                   maxlength="50" 
+                   required
+                   pattern="[A-Za-zÀ-ÿ0-9\s\-\.]{2,50}"
+                   title="Digite o modelo do veículo (2 a 50 caracteres)">
+            
+            <input type="text" 
+                   id="inputMarca" 
+                   placeholder="Marca" 
+                   maxlength="50" 
+                   required
+                   pattern="[A-Za-zÀ-ÿ0-9\s\-\.]{2,50}"
+                   title="Digite a marca do veículo (2 a 50 caracteres)">
+            
+            <input type="text" 
+                   id="inputAno" 
+                   placeholder="Ano" 
+                   maxlength="4"
+                   required
+                   pattern="[0-9]{4}"
+                   title="Digite o ano do veículo (4 dígitos)">
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="fechar()">Fechar</button>
-          <button type="button" class="btn btn-primary" id="btn-primary" onclick="cadastrar()">Cadastrar</button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-action="close">Fechar</button>
+              <button type="submit" class="btn btn-primary" id="btn-primary">Cadastrar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -159,7 +215,7 @@
         <div class="modal-body" id="confirmationMessage">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="reloadPage()">OK</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
         </div>
       </div>
     </div>
@@ -205,6 +261,48 @@
     </div>
   </div>
 
+  <!-- Modal de Confirmação de Saída -->
+  <div class="modal fade" id="checkoutConfirmModal" tabindex="-1" role="dialog" aria-labelledby="checkoutConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="checkoutConfirmModalLabel">Confirmar Saída</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Deseja realmente registrar a saída deste veículo?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="confirmCheckoutBtn">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Retorno -->
+  <div class="modal fade" id="returnConfirmModal" tabindex="-1" role="dialog" aria-labelledby="returnConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="returnConfirmModalLabel">Confirmar Retorno</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Deseja realmente retornar este veículo para a lista de ativos?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" id="confirmReturnBtn">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
@@ -218,9 +316,12 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
   </script>
   <!-- FileSave.js -->
-  <script src="js/FileSaver.min.js"></script>
+  <script src="src/FileSaver.min.js"></script>
+  <!-- jsPDF -->
+  <script src="src/lib/jspdf.umd.min.js"></script>
+  <script src="src/lib/jspdf.plugin.autotable.min.js"></script>
   <!-- main.js -->
-  <script src="js/main.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 
 </html>
